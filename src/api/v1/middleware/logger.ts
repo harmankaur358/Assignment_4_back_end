@@ -2,33 +2,28 @@ import morgan, { StreamOptions } from "morgan";
 import fs from "fs";
 import path from "path";
 
-// Ensure logs directory exists
+// Logs directory
 const logsDir = path.join(__dirname, "../../../logs");
 if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
+  fs.mkdirSync(logsDir, { recursive: true });
 }
 
-// Create a write stream (in append mode) for access logs
+// Access log stream
 const accessLogStream = fs.createWriteStream(path.join(logsDir, "access.log"), {
-    flags: "a",
+  flags: "a",
 });
 
-// Define custom stream options for error logging
+// Error log stream
 const errorLogStream: StreamOptions = {
-    write: (message) =>
-        fs.appendFileSync(path.join(logsDir, "error.log"), message),
+  write: (message) => fs.appendFileSync(path.join(logsDir, "error.log"), message),
 };
 
-// Setup the logger for access logs (all requests)
+// Morgan loggers
 const accessLogger = morgan("combined", { stream: accessLogStream });
-
-// Setup the logger for error logs (4xx and 5xx status codes only)
 const errorLogger = morgan("combined", {
-    stream: errorLogStream,
-    skip: (req, res) => res.statusCode < 400,
+  stream: errorLogStream,
+  skip: (req, res) => res.statusCode < 400,
 });
-
-// Console logger for development
 const consoleLogger = morgan("dev");
 
 export { accessLogger, errorLogger, consoleLogger };
