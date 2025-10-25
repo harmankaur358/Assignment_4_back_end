@@ -3,7 +3,7 @@ import express, {Request, Response, Express } from "express";
 import loanRoutes from "../src/api/v1/routes/loanRoutes"
 import { accessLogger, errorLogger, consoleLogger } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
-import userRoutes from "../src/api/v1/routes/userroutes"
+import userRoutes from "./api/v1/routes/userroutes"
 
 //Express app created 
 const app: Express = express();

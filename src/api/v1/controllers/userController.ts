@@ -23,6 +23,8 @@ export const setUserRole = async (req: Request, res: Response) => {
   const { uid } = req.params;
   const { role } = req.body as { role: string };
 
+   if (!role) return res.status(400).json({ error: "Role is required" });
+
   try {
     await auth.setCustomUserClaims(uid, { role }); 
     res.json({ message: `Role "${role}" set for user ${uid}` });

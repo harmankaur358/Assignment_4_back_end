@@ -26,7 +26,7 @@ describe("Custom Claims - User Controller", () => {
     await setUserRole(req, res);
 
     expect(auth.setCustomUserClaims).toHaveBeenCalledWith("123", { role: "officer" });
-    expect(res.json).toHaveBeenCalledWith({ message: 'Role "officer" assigned to user 123' });
+    expect(res.json).toHaveBeenCalledWith({ message: 'Role "officer" set for user 123' });
   });
 
   it("should return 400 if role is missing", async () => {
