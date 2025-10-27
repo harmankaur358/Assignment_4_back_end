@@ -1,6 +1,6 @@
-export type UserRole = "user" | "officer" | "manager";
+export type Role = "user" | "officer" | "manager";
 
 export interface AuthorizationOptions {
-    roles: UserRole[];
-    allowSameUser?: boolean;
+  hasRole: Role[];      
+  allowSameUser?: boolean;
 }
