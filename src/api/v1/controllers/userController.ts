@@ -18,7 +18,7 @@ export const getUserDetails = async (req: Request, res: Response) => {
   }
 };
 
-// Set custom role (admin only)
+// Set custom role
 export const setUserRole = async (req: Request, res: Response) => {
   const { uid } = req.params;
   const { role } = req.body as { role: string };

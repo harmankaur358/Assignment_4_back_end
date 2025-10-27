@@ -1,38 +1,36 @@
-//Import statements
-import express, {Request, Response, Express } from "express";
-import loanRoutes from "../src/api/v1/routes/loanRoutes"
+import express, { Request, Response, Express } from "express";
+import loanRoutes from "./api/v1/routes/loanRoutes";
+import userRoutes from "./api/v1/routes/userroutes";
 import { accessLogger, errorLogger, consoleLogger } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
-import userRoutes from "./api/v1/routes/userroutes"
+import authMiddleware from "./api/v1/middleware/authenticate";
 
-//Express app created 
 const app: Express = express();
 
-// Logging middleware 
+// Logging middleware
 if (process.env.NODE_ENV === "production") {
-    // In production, log to files
-    app.use(accessLogger);
-    app.use(errorLogger);
+  app.use(accessLogger);
+  app.use(errorLogger);
 } else {
-    // In development, log to console for immediate feedback
-    app.use(consoleLogger);
+  app.use(consoleLogger);
 }
 
-// Parsing json request
+// Parse JSON body
 app.use(express.json());
 
-//health check endpoint
+// Health check
 app.get("/health", (_req: Request, res: Response) => {
   res.status(200).send("Server is healthy");
 });
 
-//loan routes
-app.use("/api/v1/loans", loanRoutes)
+// Apply authentication middleware before routes
+app.use(authMiddleware);
 
+// API routes
+app.use("/api/v1/loans", loanRoutes);
 app.use("/api/v1/users", userRoutes);
 
-// Global error handling middleware (MUST be applied last)
+// Global error handler (must be last)
 app.use(errorHandler);
-
 
 export default app;

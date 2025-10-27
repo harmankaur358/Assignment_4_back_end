@@ -29,7 +29,7 @@ describe("Authentication Middleware", () => {
       });
     });
 
-    // ✅ Add your error handler here
+    // Add your error handler here
     app.use(errorHandler);
   });
 
