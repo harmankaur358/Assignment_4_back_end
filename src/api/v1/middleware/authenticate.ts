@@ -47,25 +47,17 @@ const authenticate = async (
         res.locals.role = decodedToken.role;
         next();
     } catch (error: unknown) {
-        if (error instanceof AuthenticationError) {
-            // Re-throw authentication errors to be handled by error middleware
-            next(error);
-        } else if (error instanceof Error) {
-            next(
-                new AuthenticationError(
-                    `Unauthorized: ${getErrorMessage(error)}`,
-                    getErrorCode(error)
-                )
-            );
-        } else {
-            next(
-                new AuthenticationError(
-                    "Unauthorized: Invalid token",
-                    "TOKEN_INVALID"
-                )
-            );
-        }
+    if (error instanceof AuthenticationError) {
+        next(error);
+    } else if (error instanceof Error) {
+        const message = getErrorMessage(error);
+        const code = message.includes("auth") ? "TOKEN_INVALID" : getErrorCode(error);
+        next(new AuthenticationError(`Unauthorized: ${message}`, code));
+    } else {
+        next(new AuthenticationError("Unauthorized: Invalid token", "TOKEN_INVALID"));
     }
+}
+
 };
 
 export default authenticate;

@@ -33,6 +33,6 @@ describe("Logging Middleware", () => {
 
   it("should not log errors for successful requests", async () => {
     await request(app).get("/success");
-    expect(fs.appendFileSync).not.toHaveBeenCalled(); // ✅ should pass now
+    expect(fs.appendFileSync).not.toHaveBeenCalled(); 
   });
 });
