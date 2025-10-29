@@ -8,6 +8,7 @@ jest.mock("firebase-admin/auth", () => ({
     getUser: jest.fn(),
     setCustomUserClaims: jest.fn(),
     verifyIdToken: jest.fn(),
+    revokeRefreshTokens: jest.fn(),
   }),
 }));
 
@@ -26,7 +27,7 @@ describe("Custom Claims - User Controller", () => {
     await setUserRole(req, res);
 
     expect(auth.setCustomUserClaims).toHaveBeenCalledWith("123", { role: "officer" });
-    expect(res.json).toHaveBeenCalledWith({ message: 'Role "officer" set for user 123' });
+    expect(res.json).toHaveBeenCalledWith({ message: 'Role "officer" set for user 123. Please sign in again to refresh token.' });
   });
 
   it("should return 400 if role is missing", async () => {

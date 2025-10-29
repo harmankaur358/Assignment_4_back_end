@@ -30,7 +30,7 @@ app.use(authMiddleware);
 app.use("/api/v1/loans", loanRoutes);
 app.use("/api/v1/users", userRoutes);
 
-// Global error handler (must be last)
+// Global error handler 
 app.use(errorHandler);
 
 export default app;

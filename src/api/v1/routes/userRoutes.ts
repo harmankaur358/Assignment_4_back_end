@@ -9,6 +9,6 @@ const router = express.Router();
 router.get("/:uid", isAuthorized({ hasRole: ["user", "officer", "manager"], allowSameUser: true }), getUserDetails);
 
 // Admin route to set role
-router.post("/admin/set-role/:uid",setUserRole);
+router.post("/admin/set-role/:uid",isAuthorized( {hasRole: ["manager"]}),setUserRole);
 
 export default router;
