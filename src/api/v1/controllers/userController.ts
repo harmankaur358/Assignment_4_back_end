@@ -10,7 +10,7 @@ interface CustomClaims {
 
 // Get user details - user, officer, manager can user details
 export const getUserDetails = async (req: Request, res: Response): Promise<void> => {
-  const { uid } = req.params;
+  const { uid } = req.params 
   // Checking the user details by uid in request
   try {
     const userRecord = await auth.getUser(uid);
